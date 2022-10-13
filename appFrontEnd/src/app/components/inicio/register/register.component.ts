@@ -25,11 +25,8 @@ export class RegisterComponent implements OnInit {
   }
 
   checkPassword(group: FormGroup): any {
-    
     const pass = group.controls["password"].value;
     const confirmPass = group.controls["confirmPassword"].value;
-    console.log("pass",pass);
-    console.log("confirmPass",confirmPass);
     return pass === confirmPass ? null : { notSame: true};
   }
 

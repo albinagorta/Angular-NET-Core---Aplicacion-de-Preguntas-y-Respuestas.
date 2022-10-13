@@ -4,7 +4,7 @@
             <div class="card text-center" style="padding: 20px;">
                 <h3>Registrarse</h3>
                 <br>
-                <form [formGroup] = "register" (ngSubmit)="registrarUsuario()">
+                <form [formGroup]= "register" (ngSubmit)="registrarUsuario()">
                     <div class="form-group" style="text-align: start;">
                         <input type="text" class="form-control" placeholder="Usuario" formControlName="usuario">
                         <span class="text-danger ml-2"
@@ -32,7 +32,7 @@
                     </div>
                     <div class="form-group">
                         <button class="btn btn-primary mr-2 btn-reg" type="submit">Aceptar</button>
-                        <button class="btn btn-secondary" routerLink = "/login">Volver</button>
+                        <button class="btn btn-secondary" routerLink = "/inicio/login">Volver</button>
                     </div>
                 </form>
             </div>

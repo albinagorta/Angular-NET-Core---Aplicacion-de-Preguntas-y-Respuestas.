@@ -4,13 +4,20 @@ import { NgModule } from '@angular/core';
 // Modulos
 import { AppRoutingModule } from './app-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
 
 // Componentes
 import { AppComponent } from './app.component';
-import { InicioComponent } from './componets/inicio/inicio.component';
-import { BienvenidaComponent } from './componets/inicio/bienvenida/bienvenida.component';
-import { LoginComponent } from './componets/inicio/login/login.component';
-import { RegisterComponent } from './componets/inicio/register/register.component';
+import { InicioComponent } from './components/inicio/inicio.component';
+import { BienvenidaComponent } from './components/inicio/bienvenida/bienvenida.component';
+import { LoginComponent } from './components/inicio/login/login.component';
+import { RegisterComponent } from './components/inicio/register/register.component';
+import { NavbarComponent } from './components/dashboard/navbar/navbar.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { CambiarPasswordComponent } from './components/dashboard/cambiar-password/cambiar-password.component';
+import { CuestionariosComponent } from './components/dashboard/cuestionarios/cuestionarios.component';
+import { LoadingComponent } from './shared/loading/loading.component';
 
 @NgModule({
   declarations: [
@@ -18,12 +25,19 @@ import { RegisterComponent } from './componets/inicio/register/register.componen
     InicioComponent,
     BienvenidaComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    NavbarComponent,
+    DashboardComponent,
+    CambiarPasswordComponent,
+    CuestionariosComponent,
+    LoadingComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    BrowserAnimationsModule, // required animations module
+    ToastrModule.forRoot(), // ToastrModule added
   ],
   providers: [],
   bootstrap: [AppComponent]
