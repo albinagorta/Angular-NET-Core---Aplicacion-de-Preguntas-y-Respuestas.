@@ -1,5 +1,4 @@
 ﻿using AppBackEnd.Domain.Models;
-using AppBackEnd.DTO;
 
 namespace AppBackEnd.Domain.IRepositories
 {

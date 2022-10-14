@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AppBackEnd.Domain.IServices;
+﻿using AppBackEnd.Domain.IServices;
 using AppBackEnd.Domain.Models;
 using AppBackEnd.Utils;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AppBackEnd.Controllers
@@ -15,9 +10,11 @@ namespace AppBackEnd.Controllers
     public class LoginController : ControllerBase
     {
         private readonly ILoginService _loginService;
-        public LoginController(ILoginService loginService)
+        private readonly IConfiguration _config;
+        public LoginController(ILoginService loginService, IConfiguration config)
         {
             _loginService = loginService;
+            _config = config;
         }
 
         [HttpPost]
@@ -31,8 +28,8 @@ namespace AppBackEnd.Controllers
                 {
                     return BadRequest(new { message = "Usuario o contraseña invalidos" });
                 }
-
-                return Ok(new { usuario = user.NombreUsuario });
+                string tokenString = JwtConfigurator.GetToken(user, _config);
+                return Ok(new { token = tokenString });
             }
             catch (Exception ex)
             {

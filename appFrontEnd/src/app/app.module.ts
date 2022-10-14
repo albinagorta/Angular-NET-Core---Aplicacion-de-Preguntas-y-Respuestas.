@@ -3,10 +3,15 @@ import { NgModule } from '@angular/core';
 
 // Modulos
 import { AppRoutingModule } from './app-routing.module';
-import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { SharedModule } from './shared/shared.module';
+import { ListCuestionariosModule } from './components/inicio/list-cuestionarios/list-cuestionarios.module';
+import { DashboardModule } from './components/dashboard/dashboard.module';
+
+// Interceptors
+import { AddTokenInterceptor } from '../app/helpers/add-token.interceptor';
 
 // Componentes
 import { AppComponent } from './app.component';
@@ -16,9 +21,7 @@ import { LoginComponent } from './components/inicio/login/login.component';
 import { RegisterComponent } from './components/inicio/register/register.component';
 import { NavbarComponent } from './components/dashboard/navbar/navbar.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { CambiarPasswordComponent } from './components/dashboard/cambiar-password/cambiar-password.component';
-import { CuestionariosComponent } from './components/dashboard/cuestionarios/cuestionarios.component';
-import { LoadingComponent } from './shared/loading/loading.component';
+import { ListCuestionariosComponent } from './components/inicio/list-cuestionarios/list-cuestionarios.component';
 
 @NgModule({
   declarations: [
@@ -28,20 +31,18 @@ import { LoadingComponent } from './shared/loading/loading.component';
     LoginComponent,
     RegisterComponent,
     NavbarComponent,
-    DashboardComponent,
-    CambiarPasswordComponent,
-    CuestionariosComponent,
-    LoadingComponent
+    DashboardComponent, 
+    ListCuestionariosComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    ReactiveFormsModule,
     BrowserAnimationsModule, // required animations module
     ToastrModule.forRoot(), // ToastrModule added
-    HttpClientModule
+    HttpClientModule,
+    SharedModule
   ],
-  providers: [],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: AddTokenInterceptor, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

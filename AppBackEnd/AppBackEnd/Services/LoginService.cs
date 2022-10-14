@@ -1,10 +1,6 @@
 ﻿using AppBackEnd.Domain.IRepositories;
 using AppBackEnd.Domain.IServices;
 using AppBackEnd.Domain.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace AppBackEnd.Services
 {

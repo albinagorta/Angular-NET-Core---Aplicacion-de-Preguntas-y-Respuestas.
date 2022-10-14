@@ -4,7 +4,10 @@ using AppBackEnd.Persistence.Context;
 using AppBackEnd.Persistence.Repositories;
 using AppBackEnd.Services;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using BackEnd.Persistence.Repositories;
 
 namespace AppBackEnd
 {
@@ -21,7 +24,10 @@ namespace AppBackEnd
         {
             
 
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson(options =>
+                                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                            );
+
             services.AddEndpointsApiExplorer();
 
             var conexionmysql = Configuration.GetConnectionString("conexionMysql");
@@ -30,20 +36,41 @@ namespace AppBackEnd
 
             //services.AddDbContext<AplicationDbContext>(options => 
             //               options.UseSqlServer(Configuration.GetConnectionString("conexionSqlserver")));
-
+		
+	    // Cors
             services.AddCors(opciones => opciones.AddPolicy("AllowWebapp",
                     builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()));
 
             // Service
             services.AddScoped<IUsuarioService, UsuarioService>();
             services.AddScoped<ILoginService, LoginService>();
+            services.AddScoped<ICuestionarioService, CuestionarioService>();
+            services.AddScoped<IRespuestaCuestionarioService, RespuestaCuestionarioService>();
 
             // Repository
             services.AddScoped<IUsuarioRepository, UsuarioRepository>();
             services.AddScoped<ILoginRepository, LoginRepository>();
+            services.AddScoped<ICuestionarioRepository, CuestionarioRepository>();
+            services.AddScoped<IRespuestaCuestionarioRepository, RespuestaCuestionarioRepository>();
 
-            
             services.AddSwaggerGen();
+
+
+            // Add Authentication
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                    .AddJwtBearer(options =>
+                        options.TokenValidationParameters = new TokenValidationParameters
+                        {
+                            ValidateIssuer = true,
+                            ValidateAudience = true,
+                            ValidateLifetime = true,
+                            ValidateIssuerSigningKey = true,
+                            ValidIssuer = Configuration["Jwt:Issuer"],
+                            ValidAudience = Configuration["Jwt:Audience"],
+                            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:SecretKey"])),
+                            ClockSkew = TimeSpan.Zero
+                        });
+
         }
 
 
@@ -61,6 +88,8 @@ namespace AppBackEnd
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

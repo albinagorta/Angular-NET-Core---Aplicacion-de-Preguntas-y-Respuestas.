@@ -1,12 +1,7 @@
 ﻿using AppBackEnd.Domain.IRepositories;
 using AppBackEnd.Domain.Models;
-using AppBackEnd.DTO;
 using AppBackEnd.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace AppBackEnd.Persistence.Repositories
 {

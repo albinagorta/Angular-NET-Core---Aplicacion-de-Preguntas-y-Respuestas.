@@ -14,8 +14,8 @@ export class LoginComponent implements OnInit {
   loading = false;
   login: FormGroup;
 
-  constructor(private fb: FormBuilder, 
-              private toastr: ToastrService, 
+  constructor(private fb: FormBuilder,
+              private toastr: ToastrService,
               private router: Router,
               private loginService: LoginService) {
     this.login = this.fb.group({
@@ -27,7 +27,6 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  
   log(): void{
     const usuario: Usuario = {
       nombreUsuario: this.login.value.usuario,
@@ -35,9 +34,8 @@ export class LoginComponent implements OnInit {
     };
     this.loading = true;
     this.loginService.login(usuario).subscribe(data => {
-      console.log(data);
       this.loading = false;
-      this.loginService.setLocalStorage(data.usuario);
+      this.loginService.setLocalStorage(data.token);
       this.router.navigate(['/dashboard']);
     }, error => {
       console.log(error);

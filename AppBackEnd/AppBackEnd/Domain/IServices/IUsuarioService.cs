@@ -1,9 +1,4 @@
 ﻿using AppBackEnd.Domain.Models;
-using AppBackEnd.DTO;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace AppBackEnd.Domain.IServices
 {
