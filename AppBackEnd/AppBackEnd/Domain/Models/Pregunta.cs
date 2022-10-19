@@ -11,9 +11,9 @@ namespace AppBackEnd.Domain.Models
         [Column(TypeName = "varchar(100)")]
         public string Descripcion { get; set; }
 
-        public int CuestionarioId { get; set; }
-        public Cuestionario Cuestionario { get; set; }
+        public int? CuestionarioId { get; set; }
+        public Cuestionario? Cuestionario { get; set; }
 
-        public List<Respuesta> listRespuestas { get; set; }
+        public List<Respuesta>? listRespuestas { get; set; }
     }
 }

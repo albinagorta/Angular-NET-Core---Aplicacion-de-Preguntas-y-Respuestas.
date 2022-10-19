@@ -1,7 +1,9 @@
 ﻿using System.Security.Claims;
 using AppBackEnd.Domain.IServices;
 using AppBackEnd.Domain.Models;
+using AppBackEnd.DTO;
 using AppBackEnd.Utils;
+using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -13,26 +15,28 @@ namespace AppBackEnd.Controllers
     public class CuestionarioController : ControllerBase
     {
         private readonly ICuestionarioService _cuestionarioService;
-        public CuestionarioController(ICuestionarioService cuestionarioService)
+        private readonly IMapper _mapper;
+
+        public CuestionarioController(ICuestionarioService cuestionarioService, IMapper mapper)
         {
             _cuestionarioService = cuestionarioService;
+            _mapper = mapper;
         }
 
         [HttpPost]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public async Task<IActionResult> Post([FromBody]Cuestionario cuestionario)
+        public async Task<IActionResult> Post([FromBody]CuestionarioDTO cuestionarioDTO)
         {
             try
             {
                 var identity = HttpContext.User.Identity as ClaimsIdentity;
                 int idUsuario = JwtConfigurator.GetTokenIdUsuario(identity);
-
-
+                var cuestionario =  _mapper.Map<Cuestionario>(cuestionarioDTO);
                 cuestionario.UsuarioId = idUsuario;
                 cuestionario.Activo = 1;
                 cuestionario.FechaCreacion = DateTime.Now;
                 await _cuestionarioService.CreateCuestionario(cuestionario);
-
+                
                 return Ok(new { message = "Se agrego el cuestionario exitosamente" });
             }
             catch (Exception ex)

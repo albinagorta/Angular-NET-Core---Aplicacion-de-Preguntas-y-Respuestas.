@@ -1,7 +1,9 @@
 ﻿using System.Security.Claims;
 using AppBackEnd.Domain.IServices;
 using AppBackEnd.Domain.Models;
+using AppBackEnd.DTO;
 using AppBackEnd.Utils;
+using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -14,17 +16,25 @@ namespace AppBackEnd.Controllers
     {
         private readonly IRespuestaCuestionarioService _respuestaCuestionarioService;
         private readonly ICuestionarioService _cuestionarioService;
-        public RespuestaCuestionarioController(IRespuestaCuestionarioService respuestaCuestionarioService, ICuestionarioService cuestionarioService)
+        private readonly IMapper mapper;
+
+        public RespuestaCuestionarioController(
+            IRespuestaCuestionarioService respuestaCuestionarioService, 
+            ICuestionarioService cuestionarioService,
+            IMapper mapper)
         {
             _respuestaCuestionarioService = respuestaCuestionarioService;
             _cuestionarioService = cuestionarioService;
+            this.mapper = mapper;
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] RespuestaCuestionario respuestaCuestionario)
+        public async Task<IActionResult> Post([FromBody] RespuestaCuestionarioDTO respuestaCuestionarioDTO)
         {
             try
             {
+                var respuestaCuestionario = mapper.Map<RespuestaCuestionario>(respuestaCuestionarioDTO);
+
                 await _respuestaCuestionarioService.SaveRespuestaCuestionario(respuestaCuestionario);
                 return Ok();
             }

@@ -7,7 +7,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using BackEnd.Persistence.Repositories;
+using Microsoft.OpenApi.Models;
+using AppBackEnd.Utils;
 
 namespace AppBackEnd
 {
@@ -36,24 +37,51 @@ namespace AppBackEnd
 
             //services.AddDbContext<AplicationDbContext>(options => 
             //               options.UseSqlServer(Configuration.GetConnectionString("conexionSqlserver")));
-		
-	    // Cors
-            services.AddCors(opciones => opciones.AddPolicy("AllowWebapp",
-                    builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()));
 
-            // Service
-            services.AddScoped<IUsuarioService, UsuarioService>();
-            services.AddScoped<ILoginService, LoginService>();
-            services.AddScoped<ICuestionarioService, CuestionarioService>();
-            services.AddScoped<IRespuestaCuestionarioService, RespuestaCuestionarioService>();
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "ApiPreguntas",
+                    Version = "v1",
+                    Description = "Este es un web api",
+                    Contact = new OpenApiContact
+                    {
+                        Email = "avideait@gmail.com",
+                        Name = "Angel Albinagorta",
+                        Url = new Uri("https://avideait.pw")
+                    },
+                    License = new OpenApiLicense
+                    {
+                        Name = "MIT"
+                    }
+                });
 
-            // Repository
-            services.AddScoped<IUsuarioRepository, UsuarioRepository>();
-            services.AddScoped<ILoginRepository, LoginRepository>();
-            services.AddScoped<ICuestionarioRepository, CuestionarioRepository>();
-            services.AddScoped<IRespuestaCuestionarioRepository, RespuestaCuestionarioRepository>();
+                //JWT
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "Bearer",
+                    BearerFormat = "JWT",
+                    In = ParameterLocation.Header
+                });
 
-            services.AddSwaggerGen();
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        },
+                        new string[]{}
+                    }
+                });
+            });
 
 
             // Add Authentication
@@ -71,6 +99,29 @@ namespace AppBackEnd
                             ClockSkew = TimeSpan.Zero
                         });
 
+
+            services.AddAutoMapper(typeof(Startup));
+
+            // Cors
+            services.AddCors(opciones => opciones.AddPolicy("AllowWebapp",
+                    builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()));
+
+
+            
+
+            // Service
+            services.AddScoped<IUsuarioService, UsuarioService>();
+            services.AddScoped<ILoginService, LoginService>();
+            services.AddScoped<ICuestionarioService, CuestionarioService>();
+            services.AddScoped<IRespuestaCuestionarioService, RespuestaCuestionarioService>();
+
+            // Repository
+            services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+            services.AddScoped<ILoginRepository, LoginRepository>();
+            services.AddScoped<ICuestionarioRepository, CuestionarioRepository>();
+            services.AddScoped<IRespuestaCuestionarioRepository, RespuestaCuestionarioRepository>();
+
+           
         }
 
 

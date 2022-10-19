@@ -3,7 +3,7 @@ using AppBackEnd.Domain.Models;
 using AppBackEnd.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 
-namespace BackEnd.Persistence.Repositories
+namespace AppBackEnd.Persistence.Repositories
 {
     public class RespuestaCuestionarioRepository: IRespuestaCuestionarioRepository
     {
