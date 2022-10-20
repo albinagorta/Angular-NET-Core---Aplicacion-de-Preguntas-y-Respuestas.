@@ -1,6 +1,6 @@
 # Angular - NET Core - Aplicación de Preguntas y Respuestas
 
-_Proyecto del curso de Anguar 13 y netcore 6_
+_Proyecto del curso de Anguar 13 y Netcore 6_
 
 ## Comenzando 🚀
 
@@ -19,7 +19,7 @@ git clone https://github.com/albinagorta/Angular-NET-Core-Aplicacion-de-Pregunta
 
 ### Instalación 🔧
 
-_ Al abrir el proyecto para el FRONT-END instalar las librerias ejecutar la siguiente linea_
+_ Al abrir el proyecto de FRONT-END ejecutar la siguiente linea para instalar las librerias_
 
 
 ```
